@@ -28,4 +28,14 @@ fs
         db[fileName] = require('./'+result)(sequelize, Sequelize);
     })
 
+// association
+db.user.hasOne(db.detail_user);
+db.user.hasMany(db.ulasan_product);
+db.product.hasMany(db.size_product);
+db.product.hasMany(db.ulasan_product);
+db.size_product.hasMany(db.warna_product);
+db.warna_product.hasMany(db.stock_product);
+db.product.hasMany(db.harga_product);
+db.product.hasOne(db.transaksi);
+db.product.hasOne(db.cart);
 module.exports = db;
