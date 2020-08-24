@@ -10,6 +10,8 @@
  * find all Posts by title: findAll({ where: { title: ... } })
  * These functions will be used in our Controller.
  */
+const bcrypt = require('bcrypt');
+
 module.exports = (sequelize, Sequelize) => {
     const User = sequelize.define("user", {
         username: {
@@ -22,6 +24,15 @@ module.exports = (sequelize, Sequelize) => {
         },
         password: {
             type: Sequelize.STRING
+        },
+        role: {
+            type: Sequelize.STRING
+        }
+    }, {
+        hooks : {
+            afterValidate: function (users) {
+                users.password = users.password && users.password != "" ? bcrypt.hashSync(users.password, 10) : "";
+            }
         }
     });
 
