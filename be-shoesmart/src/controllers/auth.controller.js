@@ -1,6 +1,7 @@
 const db = require('../models');
 const User = db.user;
 const helper = require('../helper');
+const jwt = require("jsonwebtoken");
 
 module.exports = {
     generateAdmin(req, res) {
@@ -79,6 +80,30 @@ module.exports = {
                 }
             )
         }
+    },
+    token(req, res){
+        const refreshToken = req.body.token;
+        jwt.verify(refreshToken, process.env.REFRESH_TOKEN, (err, result) => {
+            if (err) {
+                return res.status(400).send({
+                    success: false,
+                    message: "Token expired"
+                })
+            }
+
+            let userData = {
+                id: result.id,
+                username: result.username,
+                email: result.email,
+                role: result.role
+            }
+
+            const token = helper.generateToken(userData)
+
+            res.send({
+                token: token
+            })
+        })
     }
     
 }

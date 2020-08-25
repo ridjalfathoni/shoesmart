@@ -7,8 +7,8 @@ module.exports = {
         })
     },
     generateRefreshToken(userData) {
-        return jwt.sign(userData, process.env.SECRET_KEY, {
-            expiresIn: '1d'
+        return jwt.sign(userData, process.env.REFRESH_TOKEN, {
+            expiresIn: '7d'
         })
     },
     bcryptCompareSync(password, comparePassword) {
